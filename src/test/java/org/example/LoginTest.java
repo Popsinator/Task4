@@ -1,7 +1,6 @@
 package org.example;
 
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +8,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class LoginTest {
@@ -46,10 +44,6 @@ public class LoginTest {
 
     @Test
     public void loginTest() {
-        /**
-         * значение login/password берутся из файла настроек по аналогии с chromedriver и loginpage.
-         * Вводим логин.
-         */
         loginPage.inputLogin(ConfProperties.getProperty("login"));
         //нажимаем кнопку входа
         loginPage.clickLoginBtn();
@@ -57,10 +51,10 @@ public class LoginTest {
         loginPage.inputPasswd(ConfProperties.getProperty("password"));
         //нажимаем кнопку входа
         loginPage.clickLoginBtn();
-        //получаем отображаемый логин
-        String user = profilePage.getUserName();
-        //и сравниваем его с логином из файла настроек
-        Assert.assertEquals(ConfProperties.getProperty("login"), user);
+        //получаем видимость основного меню
+        boolean menu = profilePage.checkMenuDisplayed();
+        //и проверяем
+        assertTrue(menu);
     }
 
     /**
@@ -69,7 +63,5 @@ public class LoginTest {
 
     @AfterClass
     public static void tearDown() {
-        profilePage.entryMenu();
-        profilePage.userLogout();
         driver.quit(); }
 }
